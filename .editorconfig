@@ -1,0 +1,81 @@
+# =============================================================================
+# EditorConfig — https://editorconfig.org
+# Applied by VS Code (with the EditorConfig extension), JetBrains IDEs, and
+# many other editors. Overrides editor defaults for consistent formatting
+# across Windows, macOS, and Linux contributors.
+# =============================================================================
+
+# Top-most EditorConfig file — stop searching parent directories.
+root = true
+
+# =============================================================================
+# Defaults for every file
+# =============================================================================
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+max_line_length = 100
+
+# =============================================================================
+# Markdown — trailing whitespace is meaningful (line breaks)
+# =============================================================================
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# =============================================================================
+# YAML — no tabs, 2 spaces, no forced line length (long values happen)
+# =============================================================================
+[*.{yml,yaml}]
+indent_size = 2
+max_line_length = off
+
+# =============================================================================
+# JSON — 2 spaces, no forced line length (package.json etc. often long lines)
+# =============================================================================
+[*.json]
+indent_size = 2
+max_line_length = off
+
+# =============================================================================
+# Environment files — LF, no trimming (values may be meaningful)
+# =============================================================================
+[*.env*]
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+# =============================================================================
+# Shell scripts — LF only, no CRLF, or bash on Linux/Render will choke
+# =============================================================================
+[*.sh]
+end_of_line = lf
+indent_size = 2
+
+# =============================================================================
+# PowerShell — CRLF is conventional on Windows, 4-space indent
+# =============================================================================
+[*.ps1]
+end_of_line = crlf
+indent_size = 4
+
+# =============================================================================
+# Batch files — CRLF required by cmd.exe
+# =============================================================================
+[*.{bat,cmd}]
+end_of_line = crlf
+
+# =============================================================================
+# HTML / CSS / SCSS — 2 spaces
+# =============================================================================
+[*.{html,css,scss}]
+indent_size = 2
+
+# =============================================================================
+# Makefile — tabs are mandatory
+# =============================================================================
+[Makefile]
+indent_style = tab

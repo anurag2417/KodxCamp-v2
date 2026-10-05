@@ -1,0 +1,47 @@
+{
+  "name": "kodxcamp",
+  "version": "0.0.0",
+  "private": true,
+  "description": "KodxCamp - learn programming by doing. Monorepo root.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=22.11.0 <23",
+    "pnpm": ">=9.15.4 <10"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:e2e": "playwright test --config=e2e/playwright.config.ts",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml,css}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml,css}\"",
+    "clean": "turbo run clean && rimraf node_modules .turbo",
+    "clean:all": "pnpm clean && rimraf \"**/node_modules\" \"**/.turbo\" \"**/dist\"",
+    "check-env": "tsx scripts/check-env.ts",
+    "backup:db": "bash scripts/backup-db.sh",
+    "restore:db": "bash scripts/restore-db.sh",
+    "content:validate": "pnpm --filter @kodxcamp/content run validate",
+    "content:build": "pnpm --filter @kodxcamp/content run build",
+    "db:generate": "pnpm --filter @kodxcamp/db run generate",
+    "db:migrate": "pnpm --filter @kodxcamp/db run migrate",
+    "db:seed": "pnpm --filter @kodxcamp/db run seed"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.1",
+    "@types/node": "22.10.2",
+    "prettier": "3.4.2",
+    "rimraf": "6.0.1",
+    "tsx": "4.19.2",
+    "turbo": "2.3.3",
+    "typescript": "5.7.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "typescript": "5.7.2"
+    }
+  }
+}

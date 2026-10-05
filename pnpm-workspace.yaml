@@ -1,0 +1,7 @@
+packages:
+  - "apps/*"
+  - "apps/*/client"
+  - "apps/*/server"
+  - "shared/*"
+  - "content"
+  - "e2e"

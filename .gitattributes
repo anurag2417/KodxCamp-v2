@@ -1,0 +1,67 @@
+# =============================================================================
+# Git attributes — https://git-scm.com/docs/gitattributes
+# Normalizes line endings in the repo and forces consistent file handling
+# across Windows (CRLF-prone), macOS/Linux (LF), and Render (LF).
+# =============================================================================
+
+# Normalize all text files to LF in the repository.
+* text=auto eol=lf
+
+# =============================================================================
+# Explicit overrides
+# =============================================================================
+
+# Shell scripts must be LF, or bash on Linux/Render fails with "\r: command not found".
+*.sh text eol=lf
+
+# PowerShell and batch files are CRLF on Windows.
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Env files may contain meaningful whitespace; do not touch.
+.env text eol=lf
+.env.example text eol=lf
+
+# =============================================================================
+# Binary files (never normalize, never diff as text)
+# =============================================================================
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.svg text eol=lf
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.7z binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+
+# =============================================================================
+# Lock files — treat as generated, do not merge conflicts manually
+# =============================================================================
+pnpm-lock.yaml -diff merge=ours linguist-generated=true
+
+# =============================================================================
+# Generated/vendored artifacts — hide from GitHub language stats
+# =============================================================================
+content/dist/** linguist-generated=true
+*.min.js linguist-generated=true
+*.min.css linguist-generated=true
+
+# =============================================================================
+# Diff drivers — human-friendly diffs for these file types
+# =============================================================================
+*.json diff=json
+*.md diff=markdown

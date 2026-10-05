@@ -1,0 +1,73 @@
+# =============================================================================
+# Prettier ignore — files Prettier must not touch
+# =============================================================================
+# Prettier reads .gitignore automatically *only* if there's no .prettierignore.
+# Once .prettierignore exists, it takes over — so we repeat the relevant
+# entries from .gitignore here, plus a few Prettier-specific ones.
+# =============================================================================
+
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.turbo/
+*.tsbuildinfo
+
+# Coverage / test artifacts
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# Content build output (generated from content/ source)
+content/dist/
+
+# Lockfiles — Prettier would reflow YAML weirdly
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Migrations — generated SQL, hand-formatting is pointless
+shared/db/migrations/
+
+# Logs and local env
+logs/
+*.log
+.env
+.env.*
+
+# Render's local state
+.render/
+backups/
+
+# Binary / generated assets
+*.min.js
+*.min.css
+
+# Content files: courses, exercises, etc. are hand-written and often have
+# intentional formatting (code samples, alignment). Prettier stays out.
+content/courses/
+content/roadmaps/
+content/problems/
+content/projects/
+content/practice-sets/
+content/landing/
+
+# Legal docs are hand-written MDX with intentional line breaks
+content/legal/
+
+# Templates are hand-crafted scaffolds; Prettier must not alter them
+content/_templates/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
