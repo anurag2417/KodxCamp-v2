@@ -4,22 +4,16 @@
 # One file describing every service Render should run for KodxCamp.
 # Push to main → Render rebuilds and redeploys automatically.
 #
-# Free-tier notes:
-#   - Web services sleep after 15 minutes idle. A free uptime monitor
-#     (e.g. UptimeRobot) pings /health every 10 minutes to keep them warm.
-#   - Static sites are always on, no sleep.
-#   - Static site and web service must share an origin to share cookies.
-#     For now they're on separate *.onrender.com domains, so login cookies
-#     will need the API-rewrite approach documented in Phase 1a.
+# Build vs runtime:
+#   We deliberately do NOT set NODE_ENV in the envVars block. If we did,
+#   pnpm would skip devDependencies during build, and we need them (tsup,
+#   typescript, tsx) to compile the service. Instead, NODE_ENV=production
+#   is set inline on the startCommand for the runtime process only.
 # =============================================================================
 
 services:
   # ===========================================================================
   # Static site: portal + client apps
-  # ---------------------------------------------------------------------------
-  # One static site serves everything front-facing. The build script assembles
-  # each workspace's built output into a single dist/ folder, which Render
-  # then serves with SPA fallback routing.
   # ===========================================================================
   - type: web
     name: kodxcamp-portal
@@ -27,17 +21,14 @@ services:
     buildCommand: |
       corepack enable
       corepack prepare pnpm@9.15.4 --activate
-      pnpm install --frozen-lockfile
+      pnpm install --frozen-lockfile --prod=false
       pnpm --filter @kodxcamp/portal build
     staticPublishPath: ./apps/portal/dist
     routes:
-      # SPA fallback: any unknown path returns index.html so client-side
-      # routing works. API calls go to the core server via the rewrite below.
       - type: rewrite
         source: /*
         destination: /index.html
     headers:
-      # Long cache for hashed assets; short cache for HTML entry point.
       - path: /assets/*
         name: Cache-Control
         value: public, max-age=31536000, immutable
@@ -47,9 +38,6 @@ services:
 
   # ===========================================================================
   # Web service: core server
-  # ---------------------------------------------------------------------------
-  # Auth, users, coupons, grants, email. Free plan. Sleeps after idle; the
-  # uptime monitor keeps it warm.
   # ===========================================================================
   - type: web
     name: kodxcamp-core
@@ -61,33 +49,18 @@ services:
     buildCommand: |
       corepack enable
       corepack prepare pnpm@9.15.4 --activate
-      pnpm install --frozen-lockfile
+      pnpm install --frozen-lockfile --prod=false
       pnpm --filter @kodxcamp/core-server build
-    startCommand: node apps/core/server/dist/index.js
+    startCommand: NODE_ENV=production node apps/core/server/dist/index.js
     healthCheckPath: /health
     envVars:
-      - key: NODE_ENV
-        value: production
       - key: NODE_VERSION
         value: 22.11.0
       - key: LOG_LEVEL
         value: info
-      # DATABASE_URL is set in the Render dashboard (Neon connection string),
-      # not here — we don't want it in the repo. Marked sync:false so Render
-      # prompts for it on first deploy.
       - key: DATABASE_URL
         sync: false
       - key: SENTRY_DSN
         sync: false
-      # Public-facing origin of the portal static site. Set in the dashboard
-      # once Render assigns a URL.
       - key: PUBLIC_SITE_URL
         sync: false
-
-# =============================================================================
-# Notes for future services (not deployed yet):
-#   - Live product (Phase 3) will add a second web service for /apps/live.
-#   - Practice server (Phase 2) will add a third.
-#   - When we buy a real domain, remove `sync: false` for PUBLIC_SITE_URL and
-#     set it here as a static value.
-# =============================================================================
