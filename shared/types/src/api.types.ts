@@ -28,7 +28,7 @@ export interface PageInfo {
   hasMore: boolean;
 }
 
-export type Paginated<T> = {
+export interface Paginated<T> {
   items: T[];
   pageInfo: PageInfo;
-};
+}

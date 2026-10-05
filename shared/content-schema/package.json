@@ -30,7 +30,9 @@
     "zod": "3.24.1"
   },
   "devDependencies": {
+    "@kodxcamp/eslint-config": "workspace:*",
     "@kodxcamp/tsconfig": "workspace:*",
+    "eslint": "9.15.0",
     "typescript": "5.7.2"
   }
 }
