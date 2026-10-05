@@ -1,0 +1,73 @@
+name: Backup database
+
+on:
+  schedule:
+    # 18:00 UTC = 23:30 IST. Adjust if you prefer a different time.
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: backup-db
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    name: Nightly pg_dump to GitHub artifacts
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+          run_install: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install psql client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Verify DATABASE_URL is set
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL_DIRECT }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "DATABASE_URL_DIRECT secret is not set — skipping backup."
+            echo "This is expected during Phase 0 (no database yet)."
+            exit 0
+          fi
+          echo "DATABASE_URL is set; will proceed with backup."
+
+      - name: Run pg_dump
+        id: dump
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL_DIRECT }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "skipped=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          TIMESTAMP=$(date -u +"%Y%m%d-%H%M%S")
+          FILENAME="kodxcamp-${TIMESTAMP}.dump"
+          echo "Dumping to $FILENAME"
+          pg_dump --format=custom --no-owner --no-acl --file="$FILENAME" "$DATABASE_URL"
+          echo "filename=$FILENAME" >> "$GITHUB_OUTPUT"
+          echo "skipped=false" >> "$GITHUB_OUTPUT"
+
+      - name: Upload dump as artifact
+        if: steps.dump.outputs.skipped == 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: kodxcamp-db-dump-${{ github.run_id }}
+          path: ${{ steps.dump.outputs.filename }}
+          retention-days: 30

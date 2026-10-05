@@ -82,6 +82,27 @@ importers:
         specifier: 5.7.2
         version: 5.7.2
 
+  apps/portal:
+    devDependencies:
+      '@kodxcamp/eslint-config':
+        specifier: workspace:*
+        version: link:../../shared/eslint-config
+      '@kodxcamp/tsconfig':
+        specifier: workspace:*
+        version: link:../../shared/tsconfig
+      '@types/node':
+        specifier: 22.10.2
+        version: 22.10.2
+      eslint:
+        specifier: 9.15.0
+        version: 9.15.0
+      rimraf:
+        specifier: 6.0.1
+        version: 6.0.1
+      typescript:
+        specifier: 5.7.2
+        version: 5.7.2
+
   shared/content-schema:
     dependencies:
       zod:
