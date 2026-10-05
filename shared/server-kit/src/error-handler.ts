@@ -52,7 +52,10 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
       requestId,
       method: req.method,
       path: req.path,
-      err: err instanceof Error ? { name: err.name, message: err.message, stack: err.stack } : String(err),
+      err:
+        err instanceof Error
+          ? { name: err.name, message: err.message, stack: err.stack }
+          : String(err),
     },
     "Unhandled error",
   );

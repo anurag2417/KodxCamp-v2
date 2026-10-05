@@ -3,11 +3,11 @@
   "display": "KodxCamp Server",
   "extends": "./node.json",
   "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "./dist",
     "rootDir": "./src",
     "noEmit": false,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "declaration": false,
     "declarationMap": false
