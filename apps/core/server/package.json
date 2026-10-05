@@ -1,0 +1,36 @@
+{
+  "name": "@kodxcamp/core-server",
+  "version": "0.0.0",
+  "private": true,
+  "description": "KodxCamp core service — auth, users, coupons, grants, email.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsup",
+    "start": "node dist/index",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "clean": "rimraf dist .turbo"
+  },
+  "dependencies": {
+    "@kodxcamp/server-kit": "workspace:*",
+    "@kodxcamp/types": "workspace:*",
+    "express": "4.21.2",
+    "pg": "8.13.1",
+    "zod": "3.24.1"
+  },
+  "devDependencies": {
+    "@kodxcamp/eslint-config": "workspace:*",
+    "@kodxcamp/tsconfig": "workspace:*",
+    "@types/express": "5.0.0",
+    "@types/node": "22.10.2",
+    "@types/pg": "8.11.10",
+    "eslint": "9.15.0",
+    "rimraf": "6.0.1",
+    "tsup": "8.3.5",
+    "tsx": "4.19.2",
+    "typescript": "5.7.2"
+  }
+}
