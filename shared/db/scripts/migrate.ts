@@ -6,7 +6,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import pg from "pg";
 
-import { loadRootEnv } from "../src/load-env.js";
+import { loadRootEnv } from "../src/load-env.ts";
 
 loadRootEnv();
 

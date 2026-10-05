@@ -1,15 +1,15 @@
 import { drizzle } from "drizzle-orm/node-postgres";
 import pg from "pg";
 
-import * as schema from "./schema/index.js";
+import * as schema from "./schema/index.ts";
 
 /**
  * Drizzle client factory. Creates a Drizzle instance on top of a Postgres
  * pool. Consumed by every service that talks to the database.
  *
- * Note on `pg`'s CommonJS interop: `pg` doesn't have proper ESM exports,
- * so `import { Pool } from "pg"` fails under NodeNext. We use the default
- * namespace import and destructure at runtime.
+ * `pg` is CommonJS with no proper ESM exports, so `import { Pool } from "pg"`
+ * fails under NodeNext. We use the default namespace import and destructure
+ * at runtime.
  */
 
 const { Pool } = pg;
@@ -50,8 +50,6 @@ export function createDbClient(connectionString: string): DbClient {
 
 /**
  * Convenience: reads DATABASE_URL from the environment. Throws if not set.
- * Use `createDbClient` directly if you have a connection string from
- * somewhere else.
  */
 export function createDbClientFromEnv(): DbClient {
   const url = process.env["DATABASE_URL"];
