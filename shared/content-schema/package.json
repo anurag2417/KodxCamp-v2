@@ -1,0 +1,36 @@
+{
+  "name": "@kodxcamp/content-schema",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Zod schemas validating course/module/item files in /content.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./code": "./src/code.schema.ts",
+    "./course": "./src/course.schema.ts",
+    "./module": "./src/module.schema.ts",
+    "./item": "./src/item.schema.ts",
+    "./exercise": "./src/exercise.schema.ts",
+    "./quiz": "./src/quiz.schema.ts",
+    "./workshop": "./src/workshop.schema.ts",
+    "./assignment": "./src/assignment.schema.ts",
+    "./project": "./src/project.schema.ts",
+    "./roadmap": "./src/roadmap.schema.ts",
+    "./landing": "./src/landing.schema.ts",
+    "./legal": "./src/legal.schema.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "zod": "3.24.1"
+  },
+  "devDependencies": {
+    "@kodxcamp/tsconfig": "workspace:*",
+    "typescript": "5.7.2"
+  }
+}
