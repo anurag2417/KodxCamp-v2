@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "KodxCamp Base (workspace)",
+  "extends": "../../tsconfig.base.json"
+}
