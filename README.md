@@ -2,7 +2,10 @@
 
 Learn programming by doing. A learner reads a short lesson, writes code in the browser, and gets checked immediately. Nothing to install.
 
-**Status:** pre-alpha. Building Phase 0 (foundation). Not yet open to learners.
+**Status:** pre-alpha. Phase 0 (foundation) nearly complete. Not yet open to learners.
+
+- **Live core API:** https://kodxcamp-core.onrender.com/health
+- **Live static site:** https://kodxcamp-portal.onrender.com
 
 ---
 
@@ -41,8 +44,8 @@ All learner code runs inside the visitor's own browser. The site itself doesn't 
 ```
 kodxcamp/
 ├── apps/                 Application workspaces
-│   ├── portal/           Next.js static site (marketing, auth, dashboard, admin)   [P1a]
 │   ├── core/server/      Express: auth, users, coupons, grants, email              [P1a]
+│   ├── portal/           Next.js static site (marketing, auth, dashboard, admin)   [P1a]
 │   ├── learn/            Courses product (Vite React client + Express server)      [P1c]
 │   ├── practice/         Problems, projects, submissions                           [P2]
 │   └── live/             Cohorts, batches, sessions, attendance                    [P3]
@@ -116,6 +119,7 @@ pnpm dev
 | Command | What it does |
 | --- | --- |
 | `pnpm dev` | Start all dev servers (Turborepo, parallel) |
+| `pnpm dev:core` | Start only the core server |
 | `pnpm build` | Build all workspaces in dependency order |
 | `pnpm lint` | Lint every workspace |
 | `pnpm typecheck` | Type-check every workspace |
@@ -132,6 +136,7 @@ pnpm dev
 
 - **TypeScript only.** No JavaScript source files.
 - **Strict mode.** All strict flags on, including `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes`.
+- **`.js` extensions on relative imports.** Required by Node ESM. Enforced by `NodeNext` module resolution in server workspaces.
 - **Content is files.** Courses, exercises, and roadmaps live as files in `content/`, not rows in the database. Every item has a permanent code.
 - **Access is grants.** Coupons and payments create grants. Everything gated checks grants.
 - **XP is idempotent.** Every XP-earning action is recorded once per user per item.
